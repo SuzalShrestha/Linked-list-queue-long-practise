@@ -15,18 +15,15 @@ class SinglyLinkedList {
 
     addToTail(val) {
         let newNode = new SinglyLinkedNode(val);
-
         if (!this.head) {
             this.head = newNode;
             this.length++;
             return this.head;
         }
-
         let curr = this.head;
         while (curr.next) {
             curr = curr.next;
         }
-
         curr.next = newNode;
         this.length++;
         return this.head;
@@ -37,13 +34,13 @@ class SinglyLinkedList {
         //O(1)
         return this.length; //remove this code to use O(n) solution
         //O(n)
-        let count=0;
-        let curr=this.head;
-        while(curr){
-            count++;
-            curr=curr.next;
-        }
-        return count;
+        // let count=0;
+        // let curr=this.head;
+        // while(curr){
+        //     count++;
+        //     curr=curr.next;
+        // }
+        // return count;
         // Implement in O(n) and in O(1) time complexity
     }
 
@@ -70,7 +67,6 @@ class SinglyLinkedList {
     findNthNode(n) {
         // Returns the node at the nth index from the head
         if(this.head){
-            
             let curr=this.head;
             let count=0;
             while(curr){
@@ -120,7 +116,6 @@ class SinglyLinkedList {
             }
             this.head=prev;
         }
-
         // Write your hypothesis on the time complexity of this method here
     }
 }
@@ -137,22 +132,37 @@ class DoublyLinkedList {
     constructor() {
         this.head = null;
         this.tail = null;
+        this.length=0;
     }
 
     addToTail(val) {
         let newNode = new DoublyLinkedNode(val);
-
         if (!this.head) {
             this.head = newNode;
             this.tail = newNode;
+            this.length++;
             return this.head;
         }
-
         this.tail.next = newNode;
         newNode.prev = this.tail;
         this.tail = newNode;
-
+        this.length++;
         return this.head;
+    }
+    findNthNode(n) {
+        // Returns the node at the nth index from the head
+        if(this.head){ 
+            let curr=this.head;
+            let count=0;
+            while(curr){
+                if(count===n){
+                    return curr;
+                }
+                count++;
+                curr=curr.next;
+            }
+        }
+        // Write your hypothesis on the time complexity of this method here
     }
     findMid() {
         // Returns the middle node
@@ -160,21 +170,37 @@ class DoublyLinkedList {
             // How do the implementation for singly and doubly vary if at all?
         //singlyList
         if(this.head){
-            
+            return this.findNthNode(Math.ceil(this.length/2)-1);
         }
-        
         // Write your hypothesis on the time complexity of this method here
     }
 
     reverse() {
         // Returns a new reversed version of the linked list
-
+        let newList=new DoublyLinkedList();
+        if(this.head){
+            for(let i=this.length-1;i>=0;i--){
+                newList.addToTail(this.findNthNode(i).value);
+            }
+        }
+        return newList;
         // Write your hypothesis on the time complexity of this method here
     }
 
     reverseInPlace() {
         // Reverses the linked list in-place
-
+         if(this.head){
+            let curr=this.head;
+            let prev=null;
+            let next=null;
+            while(curr){
+                next=curr.next;
+                curr.next=prev;
+                prev=curr;
+                curr=next;
+            }
+            this.head=prev;
+        }
         // Write your hypothesis on the time complexity of this method here
     }
 }
